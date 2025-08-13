@@ -86,17 +86,15 @@
         }
         .slide-content {
             flex-grow: 1;
-            padding: 1rem 3rem;
+            padding: 2rem 3rem;
             color: var(--theme-dark-purple);
             overflow-y: auto;
             line-height: 1.75;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* 預設從頂部開始 */
-        }
-        
-        .content-center {
-            justify-content: center !important;
+            /* --- 修改：預設啟用置中 --- */
+            justify-content: center;
+            align-items: center;
         }
         
         .slide-title {
@@ -108,6 +106,9 @@
             padding: 1.5rem 0;
             flex-shrink: 0;
         }
+        .window-frame:not(:has(.window-header)) .slide-title {
+            padding-top: 2.5rem;
+        }
 
         h1, h2, h3, h4 {
             font-family: var(--font-pixel);
@@ -116,8 +117,8 @@
             font-weight: 700;
             text-align: center;
         }
-        h1 { font-size: clamp(3.5rem, 8vw, 5.8rem); margin-bottom: 1rem; } /* 放大封面主標題 */
-        h2 { font-size: clamp(2.8rem, 6.5vw, 4.8rem); margin-bottom: 1rem; } /* 放大封面副標題 */
+        h1 { font-size: clamp(4.2rem, 10vw, 7rem); margin-bottom: 1rem; }
+        h2 { font-size: clamp(2.6rem, 5.5vw, 4rem); margin-bottom: 1rem; }
         h3 { font-size: clamp(1.8rem, 4.5vw, 2.8rem); }
         h4 { font-size: clamp(1.8rem, 4.2vw, 2.6rem); }
         
@@ -127,6 +128,9 @@
             width: 100%;
             max-width: 90%;
             margin-top: 1rem;
+            /* --- 修改：讓列表區塊置中 --- */
+            margin-left: auto;
+            margin-right: auto;
         }
         li {
             margin-bottom: 1.5rem;
@@ -165,9 +169,13 @@
             transition: all 0.2s;
             box-shadow: 4px 4px 0px var(--theme-dark-purple);
         }
-        .nav-btn:hover {
+        .nav-btn:hover:not(:disabled) {
             transform: translate(2px, 2px);
             box-shadow: 2px 2px 0px var(--theme-dark-purple);
+        }
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
         #slide-counter {
             position: fixed;
@@ -187,7 +195,6 @@
             z-index: 20;
         }
         
-        /* 封面頁特殊樣式 */
         #slide-1 {
             background-image: url('https://storage.googleapis.com/gemini-prod-us-central1-gdcs-repo/uploaded:image_204d8a.jpg-8886ec14-fbf2-496e-b55a-9543c009043f');
             color: white;
@@ -198,10 +205,7 @@
         }
         #slide-1 h1, #slide-1 h2, #slide-1 h3, #slide-1 p { color: white; }
         
-
         .transition-slide .slide-content {
-            justify-content: center;
-            align-items: center;
             text-align: center;
         }
         .transition-slide .part-number {
@@ -221,12 +225,22 @@
             font-size: clamp(1.5rem, 3vw, 2.5rem);
             font-family: var(--font-body);
         }
+        /* --- 修改：調整副標題樣式，使其更靠近主標題 --- */
+        .slide-subtitle {
+            font-family: var(--font-body);
+            text-align: center;
+            font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+            color: var(--theme-dark-purple);
+            opacity: 0.9;
+            margin-top: -0.5rem; /* 減少與主標題的距離 */
+            margin-bottom: 2rem; /* 增加與下方內容的距離 */
+        }
     </style>
 </head>
 <body>
 
     <div id="presentation-container">
-        <!-- Slide 1: Title Page (Re-designed) -->
+        <!-- Slide 1: Title Page -->
         <div class="slide active" id="slide-1">
             <div class="window-frame">
                 <div class="window-header">
@@ -234,60 +248,74 @@
                     <div class="window-button bg-green-300"></div>
                     <div class="window-button bg-yellow-300"></div>
                 </div>
-                <div class="slide-content content-center items-center text-center">
-                    <img src="https://raw.githubusercontent.com/thc1006/sociotechnical-harms/refs/heads/main/images/removed_bg_banner.C6W-3YRf%20(1).png" alt="COSCUP x RubyConf TW 2025 Logo" class="w-1/3 mb-4">
-                    <h1 class="leading-tight">媒體內容作為大型語言模型的訓練資料</h1>
-                    <h2 class="mt-2">權利、風險與未來</h2>
-                    <h3 class="text-2xl mt-10">2025 COSCUP x RubyConf TW 開源人年會</h3>
-                    <div class="mt-4 text-xl text-center">
-                        <p>蔡秀吉</p>
-                        <p class="text-lg opacity-80">hctsai@g.postech.edu</p>
+                <div class="slide-content text-center">
+                    <img src="https://raw.githubusercontent.com/thc1006/sociotechnical-harms/refs/heads/main/images/removed_bg_banner.C6W-3YRf%20(1).png" alt="COSCUP x RubyConf TW 2025 Logo" class="w-1/4 mb-4 mx-auto">
+                    <h1 class="text-6xl">媒體內容作為大型語言模型的訓練資料</h1>
+                    <h2 class="text-4xl mt-4">權利、風險與未來</h2>
+                    <h3 class="text-2xl mt-12">2025 COSCUP x RubyConf TW 開源人年會</h3>
+                    <p class="mt-4 text-xl">蔡秀吉</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Speaker Intro -->
+        <div class="slide" id="slide-2">
+            <div class="window-frame">
+                <h2 class="slide-title">About the Speaker</h2>
+                <div class="slide-content">
+                    <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12 w-full max-w-5xl mx-auto">
+                        <div class="flex-shrink-0">
+                            <img src="https://www.gravatar.com/avatar/0a5b6532aa59d7b245c2f682acd8f3f9c7abd502f628fb9e8970cbcf3c67bb97?s=256" alt="講者照片：蔡秀吉" class="rounded-full w-48 h-48 md:w-56 md:h-56 object-cover border-4 border-purple-300 shadow-lg">
+                        </div>
+                        <div class="text-left">
+                            <h3 class="text-3xl !text-left font-pixel font-bold mb-4">蔡秀吉 (Hsiu-Chi Tsai)</h3>
+                            <p class="text-lg leading-relaxed font-body">
+                                Currently serving in the Department of Neurology at Taipei City Hospital, Yangming Branch. His research expertise focuses on Cloud-Native B5G/6G O-RAN Automation and AI/ML workflows in O-RAN. He is an alumnus of the Google Responsible AI Innovation Fellowship.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 2: Agenda -->
-        <div class="slide" id="slide-2">
+        <!-- Slide 3: Agenda -->
+        <div class="slide" id="slide-3">
             <div class="window-frame">
-                <div class="window-header"></div>
                 <h2 class="slide-title">演講議程 (Agenda)</h2>
-                <div class="slide-content content-center">
+                <div class="slide-content">
                     <ul class="space-y-6 text-2xl">
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">引言：</span>AI 的「黑盒子」與我們的資訊世界</li>
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">第一部分：</span>新時代的原料 - 為何 LLM 渴求媒體內容？</li>
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">第二部分：</span>核心衝突 - 著作權、反托拉斯法與公共利益的角力</li>
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">第三部分：</span>社會的隱憂 - 當 AI 學會了我們的偏見與謊言</li>
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">第四部分：</span>尋找出路 - 邁向共存共榮的治理模式</li>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">引言：</span>AI 的「黑盒子」與我們的資訊世界</li>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">第一部分：</span>新時代的原料 - 為何 LLM 渴求媒體內容？</li>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">第二部分：</span>核心衝突 - 著作權、反托拉斯法與公共利益的角力</li>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">第三部分：</span>社會的隱憂 - 當 AI 學會了我們的偏見與謊言</li>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">第四部分：</span>尋找出路 - 邁向共存共榮的治理模式</li>
                     </ul>
                 </div>
                  <img src="https://storage.googleapis.com/gemini-prod-us-central1-gdcs-repo/uploaded:image_204daf.jpg-23b6a312-73b3-4667-9df1-2849d3b895ab" alt="Mascot" class="mascot bottom-5 right-5" style="width: 15%;">
             </div>
         </div>
 
-        <!-- Slide 3: Introduction -->
-        <div class="slide" id="slide-3">
+        <!-- Slide 4: Introduction -->
+        <div class="slide" id="slide-4">
             <div class="window-frame">
-                <div class="window-header"></div>
                 <h2 class="slide-title">引言：AI 的「智慧」從何而來？</h2>
-                <div class="slide-content content-center items-center">
-                    <p class="text-2xl text-center">「AI 的能力來自於其學習的資料；沒有資料，AI 就只是一項技術。」</p>
+                <div class="slide-content text-center">
+                    <p class="text-2xl">「AI 的能力來自於其學習的資料；沒有資料，AI 就只是一項技術。」</p>
                     <div class="my-8 flex items-center justify-center gap-4 text-8xl">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a5 5 0 0 0-5 5c0 1.66.84 3.15 2.13 4H5a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2.13A5 5 0 0 0 17 12a5 5 0 0 0-5-5Z"/><path d="M12 2a5 5 0 0 1 5 5c0 1.66-.84 3.15-2.13 4H19a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2.13A5 5 0 0 1 7 12a5 5 0 0 1 5-5Z"/></svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>資料圖示</title><path d="M12 2a5 5 0 0 0-5 5c0 1.66.84 3.15 2.13 4H5a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2.13A5 5 0 0 0 17 12a5 5 0 0 0-5-5Z"/><path d="M12 2a5 5 0 0 1 5 5c0 1.66-.84 3.15-2.13 4H19a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2.13A5 5 0 0 1 7 12a5 5 0 0 1 5-5Z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>箭頭圖示</title><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>黑盒子圖示</title><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>箭頭圖示</title><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>問號圖示</title><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
                     </div>
-                    <p class="text-2xl text-center">它的「黑盒子」裡裝了什麼？</p>
+                    <p class="text-2xl">它的「黑盒子」裡裝了什麼？</p>
                 </div>
             </div>
         </div>
         
-        <!-- Slide 4: Part 1 Title (Redesigned) -->
-        <div class="slide transition-slide" id="slide-4">
+        <!-- Slide 5: Part 1 Title -->
+        <div class="slide transition-slide" id="slide-5">
             <div class="window-frame">
-                <div class="window-header"></div>
                 <div class="slide-content">
                     <div class="part-number">PART 1</div>
                     <div class="part-title">新時代的原料</div>
@@ -296,26 +324,24 @@
             </div>
         </div>
         
-        <!-- Slide 5: Part 1 Content -->
-        <div class="slide" id="slide-5">
+        <!-- Slide 6: Part 1 Content -->
+        <div class="slide" id="slide-6">
             <div class="window-frame">
-                <div class="window-header"></div>
                 <h2 class="slide-title">媒體內容的獨特價值</h2>
-                <div class="slide-content content-center">
-                    <ul class="w-full">
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">高品質與結構化：</span>專業媒體內容經編輯與事實查核，準確性、連貫性遠高於一般網路廢文。</li>
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">時效性與廣度：</span>持續更新的報導，讓模型能與真實世界同步，涵蓋政治、經濟、文化等各領域知識。</li>
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">文化與脈絡：</span>承載社會的觀點、價值觀與對話，是模型學習「如何像人一樣思考和溝通」的關鍵教科書。</li>
+                <div class="slide-content">
+                    <ul>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">高品質與結構化：</span>專業媒體內容經編輯與事實查核，準確性、連貫性遠高於一般網路廢文。</li>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">時效性與廣度：</span>持續更新的報導，讓模型能與真實世界同步，涵蓋政治、經濟、文化等各領域知識。</li>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">文化與脈絡：</span>承載社會的觀點、價值觀與對話，是模型學習「如何像人一樣思考和溝通」的關鍵教科書。</li>
                     </ul>
                      <p class="mt-8 text-center text-3xl font-bold font-pixel">媒體內容 = 塑造 AI 世界觀的「關鍵原料」</p>
                 </div>
             </div>
         </div>
         
-        <!-- Slide 6: Part 2 Title (Redesigned) -->
-        <div class="slide transition-slide" id="slide-6">
+        <!-- Slide 7: Part 2 Title -->
+        <div class="slide transition-slide" id="slide-7">
             <div class="window-frame">
-                <div class="window-header"></div>
                 <div class="slide-content">
                     <div class="part-number">PART 2</div>
                     <div class="part-title">核心衝突</div>
@@ -324,12 +350,11 @@
             </div>
         </div>
 
-        <!-- Slide 7: Part 2 Content 1 -->
-        <div class="slide" id="slide-7">
+        <!-- Slide 8: Part 2 Content 1 -->
+        <div class="slide" id="slide-8">
             <div class="window-frame">
-                <div class="window-header"></div>
                 <h2 class="slide-title">著作權的兩難</h2>
-                <div class="slide-content content-center">
+                <div class="slide-content">
                     <div class="flex items-center justify-around w-full">
                         <div class="text-center w-2/5">
                             <h4 class="font-bold font-pixel">原則：保護創作誘因</h4>
@@ -346,33 +371,32 @@
             </div>
         </div>
 
-        <!-- Slide 8: Essential Facilities -->
-        <div class="slide" id="slide-8">
+        <!-- Slide 9: Essential Facilities -->
+        <div class="slide" id="slide-9">
             <div class="window-frame">
-                <div class="window-header"></div>
                 <h2 class="slide-title">法律的極限：必要設施原則</h2>
-                <div class="slide-content content-center">
-                    <p class="text-xl text-center mb-6">當一個資源滿足以下條件，就可能構成「必要設施」，觸發強制授權的討論：</p>
+                <!-- --- 修改：將副標題移至此處 --- -->
+                <p class="slide-subtitle">當一個資源滿足以下條件，就可能構成「必要設施」，觸發強制授權的討論：</p>
+                <div class="slide-content" style="padding-top:0;">
                     <ul class="text-left">
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12L4 12"/><path d="M20 6L4 6"/><path d="M20 18L4 18"/></svg><span class="font-bold">不可或缺性：</span>發展下游技術（高品質AI）所必需的關鍵原料。</li>
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12L4 12"/><path d="M20 6L4 6"/><path d="M20 18L4 18"/></svg><span class="font-bold">無法複製性：</span>競爭者無法合理地自行複製或創造替代品（如歷史新聞）。</li>
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12L4 12"/><path d="M20 6L4 6"/><path d="M20 18L4 18"/></svg><span class="font-bold">獨佔控制：</span>被單一或少數業者聯合控制供給。</li>
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12L4 12"/><path d="M20 6L4 6"/><path d="M20 18L4 18"/></svg><span class="font-bold">消滅競爭：</span>拒絕提供將導致下游市場的競爭完全停滯。</li>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><path d="M20 12L4 12"/><path d="M20 6L4 6"/><path d="M20 18L4 18"/></svg><span class="font-bold">不可或缺性：</span>發展下游技術（高品質AI）所必需的關鍵原料。</li>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><path d="M20 12L4 12"/><path d="M20 6L4 6"/><path d="M20 18L4 18"/></svg><span class="font-bold">無法複製性：</span>競爭者無法合理地自行複製或創造替代品（如歷史新聞）。</li>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><path d="M20 12L4 12"/><path d="M20 6L4 6"/><path d="M20 18L4 18"/></svg><span class="font-bold">獨佔控制：</span>被單一或少數業者聯合控制供給。</li>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><path d="M20 12L4 12"/><path d="M20 6L4 6"/><path d="M20 18L4 18"/></svg><span class="font-bold">消滅競爭：</span>拒絕提供將導致下游市場的競爭完全停滯。</li>
                     </ul>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 9: Part 2 Content 2 (Redesigned) -->
-        <div class="slide" id="slide-9">
+        <!-- Slide 10: Part 2 Content 2 -->
+        <div class="slide" id="slide-10">
             <div class="window-frame">
-                <div class="window-header"></div>
                 <h2 class="slide-title">價值鏈的失衡 & 「有害競爭」</h2>
-                <div class="slide-content content-center">
-                    <div class="w-full text-center mb-8">
+                <div class="slide-content text-center">
+                    <div class="w-full mb-8">
                         <p class="text-xl"><span class="font-bold">價值鏈失衡：</span>類比「平台與新聞業者關係」，AI 開發者獲取巨利，內容創作者卻未獲分毫。</p>
                     </div>
-                    <div class="w-full grid grid-cols-2 gap-6 text-center">
+                    <div class="w-full grid grid-cols-2 gap-6">
                         <div class="bg-red-100 border-2 border-red-400 rounded-lg p-4">
                             <h4 class="font-pixel font-bold text-red-800 text-2xl">版權系統性侵蝕</h4>
                             <p class="mt-2 text-red-700">動搖整個內容產業的商業根基。</p>
@@ -386,10 +410,9 @@
             </div>
         </div>
         
-        <!-- Slide 10: Part 3 Title (Redesigned) -->
-        <div class="slide transition-slide" id="slide-10">
+        <!-- Slide 11: Part 3 Title -->
+        <div class="slide transition-slide" id="slide-11">
             <div class="window-frame">
-                <div class="window-header"></div>
                 <div class="slide-content">
                     <div class="part-number">PART 3</div>
                     <div class="part-title">社會的隱憂</div>
@@ -398,40 +421,38 @@
             </div>
         </div>
 
-        <!-- Slide 11: Part 3 Content 1 -->
-        <div class="slide" id="slide-11">
+        <!-- Slide 12: Part 3 Content 1 -->
+        <div class="slide" id="slide-12">
             <div class="window-frame">
-                <div class="window-header"></div>
                 <h2 class="slide-title">偏見放大器 & 不實資訊工廠</h2>
-                <div class="slide-content content-center">
-                     <ul class="w-full">
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">偏見的學習與放大：</span>「如果餵給 AI 的資料帶有偏見...AI 的決策結果就會產生歧視」。開發者是否應承擔「策展責任」？</li>
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">不實資訊的超級工廠：</span>AI 具備大規模、高效率製造假新聞的能力，現行「資訊限制令」等法律工具難以應對。</li>
+                <div class="slide-content">
+                     <ul>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">偏見的學習與放大：</span>「如果餵給 AI 的資料帶有偏見...AI 的決策結果就會產生歧視」。開發者是否應承擔「策展責任」？</li>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">不實資訊的超級工廠：</span>AI 具備大規模、高效率製造假新聞的能力，現行「資訊限制令」等法律工具難以應對。</li>
                      </ul>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 12: Irrational Consumption -->
-        <div class="slide" id="slide-12">
+        <!-- Slide 13: Irrational Consumption -->
+        <div class="slide" id="slide-13">
             <div class="window-frame">
-                <div class="window-header"></div>
                 <h2 class="slide-title">類比分析：資訊的非理性消費</h2>
-                <div class="slide-content content-center">
-                    <p class="text-xl text-center mb-6">如同信用卡刺激「超額金錢消費」，AI 的便利性也刺激了「超額認知依賴」。</p>
-                     <ul class="w-full">
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg><span class="font-bold">認知懶惰：</span>使用者傾向直接複製答案，放棄了自主查證與批判性思考的過程。</li>
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg><span class="font-bold">盲目信任：</span>忽略 AI 可能產生的「幻覺」(Hallucinations) 與錯誤，將其視為權威。</li>
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg><span class="font-bold">思考外包：</span>長期依賴將導致解決複雜問題能力的下降。</li>
-                    </ul>
+                <!-- --- 修改：將副標題移至此處 --- -->
+                <p class="slide-subtitle">如同信用卡刺激「超額金錢消費」，AI 的便利性也刺激了「超額認知依賴」。</p>
+                <div class="slide-content" style="padding-top:0;">
+                     <ul>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><path d="m9 18 6-6-6-6"/></svg><span class="font-bold">認知懶惰：</span>使用者傾向直接複製答案，放棄了自主查證與批判性思考的過程。</li>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><path d="m9 18 6-6-6-6"/></svg><span class="font-bold">盲目信任：</span>忽略 AI 可能產生的「幻覺」(Hallucinations) 與錯誤，將其視為權威。</li>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><path d="m9 18 6-6-6-6"/></svg><span class="font-bold">思考外包：</span>長期依賴將導致解決複雜問題能力的下降。</li>
+                     </ul>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 13: Part 4 Title (Redesigned) -->
-        <div class="slide transition-slide" id="slide-13">
+        <!-- Slide 14: Part 4 Title -->
+        <div class="slide transition-slide" id="slide-14">
             <div class="window-frame">
-                <div class="window-header"></div>
                 <div class="slide-content">
                     <div class="part-number">PART 4</div>
                     <div class="part-title">尋找出路</div>
@@ -440,39 +461,39 @@
             </div>
         </div>
 
-        <!-- Slide 14: Part 4 Content 1 -->
-        <div class="slide" id="slide-14">
+        <!-- Slide 15: Part 4 Content 1 -->
+        <div class="slide" id="slide-15">
             <div class="window-frame">
-                <div class="window-header"></div>
                 <h2 class="slide-title">政府的角色：從不干預到市場建立者</h2>
-                <div class="slide-content content-center">
-                    <ul class="w-full">
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">為何需要介入？</span>市場已出現系統性侵權、資訊不對稱、潛在壟斷等「市場失靈」現象。</li>
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">如何介入？</span>重點不在於直接管制AI的內容，而是建立一個公平、有效率的「結構性授權機制」。</li>
+                <div class="slide-content">
+                    <ul>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">為何需要介入？</span>市場已出現系統性侵權、資訊不對稱、潛在壟斷等「市場失靈」現象。</li>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">如何介入？</span>重點不在於直接管制AI的內容，而是建立一個公平、有效率的「結構性授權機制」。</li>
                     </ul>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 15: Governance Models (Redesigned) -->
-        <div class="slide" id="slide-15">
+        <!-- Slide 16: Governance Models -->
+        <div class="slide" id="slide-16">
             <div class="window-frame">
-                <div class="window-header"></div>
                 <h2 class="slide-title">治理模式的比較</h2>
-                <div class="slide-content content-center">
+                <div class="slide-content">
                     <div class="w-full grid grid-cols-3 gap-6 text-center">
                         <div class="border-2 border-purple-400 rounded-lg p-4 flex flex-col items-center justify-start">
-                             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-3 text-purple-600"><path d="M12 3v18M3 12h18"/></svg>
+                             <!-- --- 修改：更換為歐盟旗幟圖示 --- -->
+                             <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/Flag_of_Europe.svg" alt="歐盟旗幟" class="w-16 h-auto mb-3">
                             <h4 class="font-pixel font-bold">歐盟模式</h4>
                             <p class="text-base mt-2">由上而下立法，規則清晰，強制力強，但可能僵化。</p>
                         </div>
                         <div class="border-2 border-green-500 rounded-lg p-4 flex flex-col items-center justify-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-3 text-green-700"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+                             <!-- --- 修改：更換為美國旗幟圖示 --- -->
+                             <img src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg" alt="美國旗幟" class="w-16 h-auto mb-3">
                             <h4 class="font-pixel font-bold">美國模式</h4>
                             <p class="text-base mt-2">市場自律，鼓勵創新，但權力易向巨頭傾斜。</p>
                         </div>
                         <div class="border-2 border-blue-500 rounded-lg p-4 flex flex-col items-center justify-start">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-3 text-blue-700"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-3 text-blue-700"><title>多方利害關係人模式圖示</title><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                             <h4 class="font-pixel font-bold">多方利害關係人模式</h4>
                             <p class="text-base mt-2">共識度高，具正當性，但過程緩慢，缺乏強制力。</p>
                         </div>
@@ -482,59 +503,55 @@
             </div>
         </div>
 
-        <!-- Slide 16: Collective Licensing -->
-        <div class="slide" id="slide-16">
-            <div class="window-frame">
-                <div class="window-header"></div>
-                <h2 class="slide-title">一個務實的解方：集體授權機制</h2>
-                <div class="slide-content content-center">
-                    <p class="text-xl text-center mb-6">類比音樂版權的「集管團體」模式，解決一對一授權的困境。</p>
-                    <ul>
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg><span class="font-bold">降低交易成本：</span>AI公司只需與單一組織協商，即可合法使用大量內容。</li>
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg><span class="font-bold">確保創作者收益：</span>建立透明、公平的分潤機制，將授權費分配給內容創作者。</li>
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg><span class="font-bold">促進市場效率：</span>讓授權變得可行，使AI產業得以在合規的基礎上健康發展。</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- Slide 17: Possible Solutions -->
+        <!-- Slide 17: Collective Licensing -->
         <div class="slide" id="slide-17">
             <div class="window-frame">
-                <div class="window-header"></div>
-                <h2 class="slide-title">可能的解決方案組合</h2>
-                <div class="slide-content content-center">
+                <h2 class="slide-title">一個務實的解方：集體授權機制</h2>
+                <p class="slide-subtitle">類比音樂版權的「集管團體」模式，解決一對一授權的困境。</p>
+                <div class="slide-content" style="padding-top: 0;">
                     <ul>
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">短期治標：</span>推動「強制標示」，要求AI生成內容必須揭露，並提供可追溯來源。</li>
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">中期建立秩序：</span>立法建立「集體授權機制」，從根本解決版權爭議。</li>
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">長期培養韌性：</span>將「AI素養」與「批判性思考」納入國民教育，培養能善用並監督AI的現代公民。</li>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><path d="m9 18 6-6-6-6"/></svg><span class="font-bold">降低交易成本：</span>AI公司只需與單一組織協商，即可合法使用大量內容。</li>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><path d="m9 18 6-6-6-6"/></svg><span class="font-bold">確保創作者收益：</span>建立透明、公平的分潤機制，將授權費分配給內容創作者。</li>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><path d="m9 18 6-6-6-6"/></svg><span class="font-bold">促進市場效率：</span>讓授權變得可行，使AI產業得以在合規的基礎上健康發展。</li>
                     </ul>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 18: Conclusion -->
+        <!-- Slide 18: Possible Solutions -->
         <div class="slide" id="slide-18">
-             <div class="window-frame">
-                <div class="window-header"></div>
-                <h2 class="slide-title">結論：從權利衝突到建立新秩序</h2>
-                <div class="slide-content content-center">
-                    <ul class="mt-2 space-y-4 text-2xl text-left w-full max-w-4xl">
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">權利衝突：</span>保護創作 vs. 促進創新的根本衝突，需從「原則與例外」的法律智慧中尋求解方。</li>
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">社會風險：</span>放任式「學習」將放大社會既有的偏見，並對民主社會構成不實資訊的威脅。</li>
-                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">未來出路：</span>建立公平的「結構性授權與治理框架」，尋求一個能讓內容創作與科技創新共存共榮的新秩序。</li>
+            <div class="window-frame">
+                <h2 class="slide-title">可能的解決方案組合</h2>
+                <div class="slide-content">
+                    <ul>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">短期治標：</span>推動「強制標示」，要求AI生成內容必須揭露，並提供可追溯來源。</li>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">中期建立秩序：</span>立法建立「集體授權機制」，從根本解決版權爭議。</li>
+                        <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">長期培養韌性：</span>將「AI素養」與「批判性思考」納入國民教育，培養能善用並監督AI的現代公民。</li>
                     </ul>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 19: Q&A -->
+        <!-- Slide 19: Conclusion -->
         <div class="slide" id="slide-19">
+                 <div class="window-frame">
+                    <h2 class="slide-title">結論：從權利衝突到建立新秩序</h2>
+                    <div class="slide-content">
+                        <ul class="mt-2 space-y-4 text-2xl text-left w-full max-w-4xl">
+                            <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">權利衝突：</span>保護創作 vs. 促進創新的根本衝突，需從「原則與例外」的法律智慧中尋求解方。</li>
+                            <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">社會風險：</span>放任式「學習」將放大社會既有的偏見，並對民主社會構成不實資訊的威脅。</li>
+                            <li><svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>項目符號</title><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg><span class="font-bold">未來出路：</span>建立公平的「結構性授權與治理框架」，尋求一個能讓內容創作與科技創新共存共榮的新秩序。</li>
+                        </ul>
+                    </div>
+                </div>
+        </div>
+
+        <!-- Slide 20: Q&A -->
+        <div class="slide" id="slide-20">
             <div class="window-frame">
-                <div class="window-header"></div>
-                <div class="slide-content content-center">
+                <div class="slide-content text-center">
                     <h2 class="text-6xl">Q & A</h2>
-                    <div class="text-center">
+                    <div>
                         <p class="mt-8 text-3xl">這不僅是法律或技術問題，</p>
                         <p class="mt-4 text-3xl">更是我們如何定義「知識的價值」、「智慧的未來」</p>
                         <p class="mt-4 text-3xl">以及「我們想成為什麼樣的社會」的重大選擇。</p>
@@ -542,11 +559,11 @@
                             <p class="font-bold">蔡秀吉</p>
                             <div class="flex items-center justify-center gap-4 flex-wrap">
                                 <a href="mailto:hctsai@linux.com" class="flex items-center gap-2 hover:text-pink-500 transition-colors">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>電子郵件圖示</title><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                                     <span>hctsai@linux.com</span>
                                 </a>
                                 <a href="https://www.facebook.com/thc1006" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 hover:text-blue-600 transition-colors">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Facebook 圖示</title><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
                                     <span>Facebook</span>
                                 </a>
                             </div>
@@ -556,7 +573,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <!-- Navigation -->
@@ -582,10 +598,12 @@
                     slide.classList.toggle('active', index === currentSlide);
                 });
                 slideCounter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+                
                 prevBtn.disabled = currentSlide === 0;
                 nextBtn.disabled = currentSlide === totalSlides - 1;
-                prevBtn.style.opacity = prevBtn.disabled ? '0.5' : '1';
-                nextBtn.style.opacity = nextBtn.disabled ? '0.5' : '1';
+                
+                prevBtn.setAttribute('aria-disabled', String(prevBtn.disabled));
+                nextBtn.setAttribute('aria-disabled', String(nextBtn.disabled));
             }
 
             function nextSlide() {
